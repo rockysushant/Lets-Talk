@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "154244772071",
+    "project_id": "chat-app-b1c81",
+    "storage_bucket": "chat-app-b1c81.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:154244772071:android:eff4e6b490598606d5f242",
+        "android_client_info": {
+          "package_name": "com.mynoteapp.letstalk"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBIA5YQ71vcCRjmKiYE7pL0e_Z7z6jajGU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
