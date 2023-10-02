@@ -6,10 +6,15 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.widget.ProgressBar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import com.mynoteapp.letstalk.Authentication.login
+import com.mynoteapp.letstalk.Adapter.UserAdapter
+import com.mynoteapp.letstalk.Modal.User
 
 class MainActivity : AppCompatActivity() {
 
@@ -18,6 +23,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var adapter: UserAdapter
     private lateinit var mAuth: FirebaseAuth
     private lateinit var mDbRef: DatabaseReference
+    private lateinit var progressBar: ProgressBar
+
 
 
 
@@ -28,6 +35,7 @@ class MainActivity : AppCompatActivity() {
 
         mAuth = FirebaseAuth.getInstance()
         mDbRef = FirebaseDatabase.getInstance().reference
+        progressBar = findViewById(R.id.pbLoading)
 
         userList = ArrayList()
         adapter = UserAdapter(this,userList)
@@ -39,9 +47,13 @@ class MainActivity : AppCompatActivity() {
         userRecyclerView.adapter = adapter
 
         mDbRef.child("user").addValueEventListener(object :ValueEventListener{
+
             @SuppressLint("NotifyDataSetChanged")
             override fun onDataChange(snapshot: DataSnapshot) {
+                progressBar.visibility = View.VISIBLE
+
                 userList.clear()
+
                 for(postSnapshot in snapshot.children){
                     val currentUser = postSnapshot.getValue(User::class.java)
 

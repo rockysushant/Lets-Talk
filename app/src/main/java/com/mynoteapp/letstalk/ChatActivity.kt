@@ -5,10 +5,13 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import com.mynoteapp.letstalk.Adapter.MessageAdapter
+import com.mynoteapp.letstalk.Modal.Message
 
 class ChatActivity : AppCompatActivity() {
 
@@ -18,11 +21,8 @@ class ChatActivity : AppCompatActivity() {
     private lateinit var messageAdapter: MessageAdapter
     private lateinit var messageList: ArrayList<Message>
     private lateinit var mDbRef: DatabaseReference
-
-
-    private var receiverRoom:String? = null
-    private var senderRoom:String? = null
-
+    private var receiverRoom: String? = null
+    private var senderRoom: String? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,6 +32,11 @@ class ChatActivity : AppCompatActivity() {
 
         val name = intent.getStringExtra("name")
         val receiverUid = intent.getStringExtra("uid")
+        val position = intent.getIntExtra("position", 1)
+
+        // val id of tex t= findviewbyid(r.id.intid)
+//        intid.text = position
+
 
         val senderUid = FirebaseAuth.getInstance().currentUser?.uid
         mDbRef = FirebaseDatabase.getInstance().reference
@@ -47,25 +52,58 @@ class ChatActivity : AppCompatActivity() {
         messageBox = findViewById(R.id.messageBox)
         sendButton = findViewById(R.id.sendButton)
         messageList = ArrayList()
-        messageAdapter  = MessageAdapter(this,messageList)
+        messageAdapter = MessageAdapter(this, messageList)
 
         chatRecyclerView.layoutManager = LinearLayoutManager(this)
         chatRecyclerView.adapter = messageAdapter
 
         // LOGIC FOR ADDING  DATA TO RECYCLERVIEW
+        fetchMessages()
 
-        mDbRef.child("chats").child(senderRoom!!).child("message")
-            .addValueEventListener(object : ValueEventListener{
+
+
+
+
+        sendButton.setOnClickListener {
+            if (messageBox.text.isEmpty()) {
+                Toast.makeText(this, "Please enter text First", Toast.LENGTH_LONG).show()
+            } else {
+                val message = messageBox.text.toString()
+                val messageObject = Message(message, senderUid)
+                mDbRef.child("chats").child(senderRoom!!).child("messages").push()
+                    .setValue(messageObject).addOnSuccessListener {
+                        mDbRef.child("chats").child(receiverRoom!!).child("messages").push()
+                            .setValue(messageObject).addOnSuccessListener {
+                                Toast.makeText(this, "Message sent", Toast.LENGTH_LONG).show()
+                            }.addOnFailureListener {
+                                Toast.makeText(this,"Error while receiving", Toast.LENGTH_LONG).show()
+                            }
+                    }.addOnFailureListener {
+                        Toast.makeText(this,"Error while sending", Toast.LENGTH_LONG).show()
+                    }
+                messageBox.setText("")
+
+            }
+        }
+
+
+
+    }
+
+    private fun fetchMessages(){
+        mDbRef.child("chats").child(senderRoom!!).child("messages")
+            .addValueEventListener(object : ValueEventListener {
                 @SuppressLint("NotifyDataSetChanged")
                 override fun onDataChange(snapshot: DataSnapshot) {
 
                     messageList.clear()
 
-                    for(postSnapshot in snapshot.children){
+                    for (postSnapshot in snapshot.children) {
                         val message = postSnapshot.getValue(Message::class.java)
                         messageList.add(message!!)
                     }
                     messageAdapter.notifyDataSetChanged()
+                    chatRecyclerView.smoothScrollToPosition(messageList.size - 1)
                 }
 
                 override fun onCancelled(error: DatabaseError) {
@@ -73,27 +111,5 @@ class ChatActivity : AppCompatActivity() {
                 }
 
             })
-
-
-
-
-        sendButton.setOnClickListener{
-
-            val message  = messageBox.text.toString()
-            val messageObject = Message(message,senderUid)
-            mDbRef.child("chats").child(senderRoom!!).child("messages").push()
-                .setValue(messageObject).addOnSuccessListener {
-
-                    mDbRef.child("chats").child(receiverRoom!!).child("messages").push()
-                        .setValue(messageObject)
-                }
-            messageBox.setText("")
-
-
-
-        }
-
-
-
     }
 }

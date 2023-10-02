@@ -1,4 +1,4 @@
-package com.mynoteapp.letstalk
+package com.mynoteapp.letstalk.Modal
 
 class Message {
     var message: String? = null
@@ -9,5 +9,6 @@ class Message {
     constructor(message:String?,senderId: String?){
         this.message = message
         this.senderId = senderId
+
     }
 }

@@ -1,10 +1,13 @@
-package com.mynoteapp.letstalk
+package com.mynoteapp.letstalk.Adapter
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
+import com.mynoteapp.letstalk.Modal.Message
+import com.mynoteapp.letstalk.R
 
 
 class MessageAdapter(private val context: android.content.Context, private val messageList: ArrayList<Message>):
@@ -24,8 +27,6 @@ class MessageAdapter(private val context: android.content.Context, private val m
 
             val view: View = LayoutInflater.from(context).inflate(R.layout.sent,parent,false)
             SentViewHolder(view)
-
-
         }
 
     }
@@ -36,16 +37,16 @@ class MessageAdapter(private val context: android.content.Context, private val m
         val currentMessage = messageList[position]
 
         if(holder.javaClass == SentViewHolder::class.java){
-
             // DO THE STUFF FOR SENT VIEW HOLDER
 
             val viewHolder = holder as SentViewHolder
-
             holder.sentMessage.text = currentMessage.message
 
-        }else{
-            // DO THE STUFF FOR RECEIVE VIEW HOLDER
 
+
+        }else{
+
+            // DO THE STUFF FOR RECEIVE VIEW HOLDER
             val viewHolder = holder as ReceiveViewHolder
             holder.receiveMessage.text = currentMessage.message
 
@@ -58,7 +59,7 @@ class MessageAdapter(private val context: android.content.Context, private val m
         return if(FirebaseAuth.getInstance().currentUser?.uid.equals(currentMessage.senderId)){
             ITEM_SENT
         }else{
-            ITEM_RECEVIE
+             return ITEM_RECEVIE
         }
     }
 
@@ -72,7 +73,6 @@ class MessageAdapter(private val context: android.content.Context, private val m
     
 
     class SentViewHolder(itemView:View): RecyclerView.ViewHolder(itemView){
-
         val sentMessage: TextView = itemView.findViewById(R.id.txt_sent_message)
 
     }
@@ -83,3 +83,5 @@ class MessageAdapter(private val context: android.content.Context, private val m
 
     }
 }
+
+

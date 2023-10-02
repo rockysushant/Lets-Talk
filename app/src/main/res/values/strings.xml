@@ -2,4 +2,10 @@
     <string name="app_name">Lets Talk</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
+    <string name="this_is_the_sent_message">This_is_the_sent_message</string>
+    <string name="logout">logout</string>
+    <string name="abhay">Abhay</string>
+    <string name="let_s_talk">Let\'s Talk</string>
+    <string name="this_is_the_receive_message">this_is_the_receive_message</string>
+    <string name="type_a_message">Type A Message</string>
 </resources>

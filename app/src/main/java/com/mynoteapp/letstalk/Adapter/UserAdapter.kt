@@ -1,4 +1,4 @@
-package com.mynoteapp.letstalk
+package com.mynoteapp.letstalk.Adapter
 
 import android.content.Context
 import android.content.Intent
@@ -7,6 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.mynoteapp.letstalk.ChatActivity
+import com.mynoteapp.letstalk.R
+import com.mynoteapp.letstalk.Modal.User
 
 class UserAdapter(private val context: Context, private val userList: ArrayList<User>): RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
 
@@ -15,6 +18,7 @@ class UserAdapter(private val context: Context, private val userList: ArrayList<
 
         val view: View = LayoutInflater.from(context).inflate(R.layout.user_layout,parent,false)
         return UserViewHolder(view)
+
     }
 
 
@@ -27,8 +31,10 @@ class UserAdapter(private val context: Context, private val userList: ArrayList<
             val intent = Intent(context, ChatActivity::class.java)
             intent.putExtra("name",currentUser.name)
             intent.putExtra("uid",currentUser.uid)
+            intent.putExtra("position", position+1)
             context.startActivity(intent)
         }
+        holder.positionOfUser.text = (position+1).toString()
     }
 
     override fun getItemCount(): Int {
@@ -39,6 +45,7 @@ class UserAdapter(private val context: Context, private val userList: ArrayList<
 
     class UserViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
 
-        val textName = itemView.findViewById<TextView>(R.id.txt_name)
+        val textName: TextView = itemView.findViewById(R.id.txt_name)
+        val positionOfUser: TextView = itemView.findViewById(R.id.positionOfUser)
     }
 }

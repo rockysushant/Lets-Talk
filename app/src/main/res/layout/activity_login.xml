@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#292D3A"
 
-    tools:context=".login">
+    tools:context=".Authentication.login">
+    
+
+
 
     <ImageView
         android:layout_width="match_parent"
@@ -45,7 +49,7 @@
         android:hint="e_mail"
         android:inputType="textPersonName"
         android:padding="10dp"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:textColorHint="#D8D4D4"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -69,10 +73,11 @@
         android:ems="10"
         android:drawableStart="@drawable/baseline_password_24"
         android:drawablePadding="7dp"
-        android:hint="paswwrod"
+        android:hint="Password"
+
         android:inputType="textPersonName"
         android:padding="10dp"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:textColorHint="#D8D4D4"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -104,7 +109,7 @@
         />
 
     <TextView
-        android:id="@+id/btnSignUp"
+        android:id="@+id/newAccount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="18dp"

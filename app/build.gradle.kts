@@ -51,4 +51,12 @@ dependencies {
 
     implementation(platform("com.google.firebase:firebase-bom:32.3.1"))
     implementation("com.google.firebase:firebase-analytics-ktx")
+
+
+
+    val multidex_version = "2.0.1"
+    dependencies {
+        implementation("androidx.multidex:multidex:$multidex_version")
+    }
+
 }
